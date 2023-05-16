@@ -1,0 +1,85 @@
+-- 4일차
+-- 집계 및 그룹함수 : count(), sum(), avg(), max(), min(), group by having
+
+-- COUNT()
+SELECT COUNT(*)
+FROM EMPLOYEES;
+
+-- SUM(), AVG() --급여 총합, 급여 평균
+SELECT SUM(salary), AVG(salary)
+FROM EMPLOYEES;
+
+SELECT SUM(salary)/count(salary)
+FROM EMPLOYEES;
+
+SELECT first_name, salary, sum(salary) over(order  by first_name) as 누적급여
+FROM EMPLOYEES;
+
+-- max, min
+SELECT min(salary) as 최고급여, max(salary) as 최대급여
+FROM EMPLOYEES;
+
+-- stddev() 표준편차 / variance() 분
+SELECT stddev(salary) as 표준편차, variance(salary) as 분산
+FROM EMPLOYEES;
+
+-- group by
+-- job_id별로 총점, 평균 집계
+SELECT job_id, sum(salary), avg(salary)
+FROM EMPLOYEES
+GROUP BY job_id;
+
+-- department_id = 50 중에서 job_id 별로 급여 총액, 평균 집계;
+-- 예) 영업부에서 직급별 급여 총액과 평균을 집계.
+SELECT sum(salary), avg(salary)
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 50
+GROUP by JOB_ID;
+
+SELECT JOB_ID, DEPARTMENT_ID
+FROM EMPLOYEES
+ORDER BY DEPARTMENT_ID;
+
+-- 부서별 최소급여, 최대급여 집계
+SELECT DEPARTMENT_ID,min(salary), max(salary)
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID
+ORDER by DEPARTMENT_ID;
+
+-- 부서별 최소급여, 최대급여 집계(단, 입사일 2007년 이전)
+SELECT DEPARTMENT_ID,min(salary), max(salary)
+FROM EMPLOYEES
+WHERE HIRE_DATE>'20070101'
+GROUP BY DEPARTMENT_ID
+ORDER by DEPARTMENT_ID;
+
+-- 영업부에서 직급별 급여 총액, 급여 평균 산출
+SELECT job_id, DEPARTMENT_ID, sum(salary), avg(salary)
+FROM EMPLOYEES
+GROUP BY JOB_ID, DEPARTMENT_ID
+ORDER by JOB_ID;
+
+-- 예) department_id 50과 100사이에서 직급별 급여 총액, 금여 평균 산출
+SELECT job_id, DEPARTMENT_ID, sum(salary), avg(salary)
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID BETWEEN 50 and 100
+GROUP BY JOB_ID, DEPARTMENT_ID
+ORDER by JOB_ID;
+
+-- 급여 총액이 50000이상 데이터만 추출
+SELECT DEPARTMENT_ID, sum(salary), avg(salary)
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID
+HAVING sum(salary)>=50000
+ORDER by DEPARTMENT_ID;
+
+-- 1. department_id별 급여 최대값, 급여 최소값을 구하자.
+SELECT department_id, max(salary), min(salary)
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID;
+
+-- 2. department_id별 급여 최대값, 급여 최소값을 구하자.(단, 최대급여 7000이상)
+SELECT department_id, max(salary), min(salary)
+FROM EMPLOYEES
+GROUP BY DEPARTMENT_ID
+HAVING max(SALARY)>=7000;
