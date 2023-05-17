@@ -1,0 +1,66 @@
+-- 5일차..
+SELECT*
+FROM EMPLOYEES;
+
+-- 1. jobs 테이블에서 max_salary 값의 최소값과 max_salary 값의 최대값을 조회
+select min(max_salary) as 최소값, max(max_salary) as 최대값
+from jobs;
+
+-- 2. jobs 테이블에서 job_title이 'Programmer'인 직업의 max_salary 값의 최소값과 max_salary 값의 최대값을 조회
+SELECT job_title, min(max_salary) as 최소값, max(max_salary) as 최대값
+FROM JOBS
+WHERE JOB_TITLE = 'Programmer'
+group by job_title;
+
+-- 3. employees 테이블에서 department_id 가 50인 테이터의 hire_data 최소값과 최대값 조회
+SELECT DEPARTMENT_ID, min(hire_date) as 최소값, max(hire_date) as 최대값
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 50
+group by department_id;
+
+-- 4. employees 테이블에서 department_id 가 100인 테이터의 first_name, salary,
+--     그리고 salary의 분산값을 hire_date 정렬기준으로 조회
+SELECT DEPARTMENT_ID, first_name, SALARY, hire_date, VARIANCE(salary) as 분산값
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 100
+GROUP by DEPARTMENT_ID, first_name, SALARY, hire_date
+ORDER by HIRE_DATE;
+
+-- 5. employees 테이블에서 hire_date 값이 2004년 1월 1일부터 2006년 12 월 31일 사이의 데이터를 job_id 기준으로
+-- 그룹화 한 뒤에 jod_id와 salary 최소값과 최대값을 조회
+SELECT JOB_ID, min(salary), max(salary)
+FROM EMPLOYEES
+WHERE HIRE_DATE BETWEEN '20040101' and '20061231'
+GROUP by JOB_ID;
+
+-- 6. employees 테이블에서 department_id가 50과 80인 데이터를 department_id와 job_id 기준으로 그룹화한 뒤에 department_id와
+-- job_id, salary 합계, 최솟값, 최대값을 job_id 기준으로 정렬하여 조회
+SELECT department_id, job_id, sum(salary), min(salary), max(salary)
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID in (50,80)
+GROUP by department_id, job_id
+ORDER by JOB_ID;
+
+-- 7. employees 테이블에서 department_id와 job_id 기준으로 그룹화한 뒤에 salary 평균값이 12000 이상인 데이터만 department_id와
+ -- job_id, salary 최솟값, 최대값, 평균을 department_id 기준으로 정렬하여 조회
+SELECT department_id, job_id, min(salary), max(salary), AVG(salary)
+FROM EMPLOYEES
+GROUP BY department_id, job_id
+having AVG(salary)>=12000
+ORDER by department_id;
+
+--------------- JOIN
+SELECT *FROM EMPLOYEES; -- 107행 -- 11열
+SELECT * FROM DEPARTMENTS; --27행  -- 4열
+--카티션 곱
+SELECT *
+FROM EMPLOYEES, DEPARTMENTS; -- 107행*27행 = 2889행 -- 11열+4열 = 15행
+
+-- 동등조인
+SELECT J.JOB_ID, J.min_salary, J.MAX_SALARY, H.department_id
+FROM JOBS J, JOB_HISTORY H
+WHERE J.JOB_ID = H.JOB_ID and J.JOB_ID = 'IT_PROG';
+
+SELECT * FROM JOBS;
+SELECT * FROM JOB_HISTORY;
+SELECT * FROM EMPLOYEES;
