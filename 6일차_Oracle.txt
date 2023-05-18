@@ -1,0 +1,82 @@
+-- 6일차..
+
+-- 동등조인
+SELECT department_id, jobs.job_id, job_history.job_id
+FROM JOBS, JOB_HISTORY
+WHERE JOBS.JOB_ID = JOB_HISTORY.JOB_ID;
+
+SELECT J.JOB_ID, J.min_salary, J.MAX_SALARY, H.department_id
+FROM JOBS J, JOB_HISTORY H
+WHERE J.JOB_ID = H.JOB_ID;
+
+SELECT * FROM JOBS;
+SELECT * FROM JOB_HISTORY;
+SELECT * FROM EMPLOYEES;
+
+-- 비동등 조인 - 테이블의 동일한 컬럼없이 다른 조건으로 조인하는 방법
+SELECT * FROM EMPLOYEES;
+SELECT * FROM JOBS;
+SELECT * FROM JOB_HISTORY;
+
+SELECT *
+FROM EMPLOYEES E, JOBS J
+WHERE E.SALARY BETWEEN J.MIN_SALARY and J.MAX_SALARY;
+
+-- 외부 조인(Outer Join)
+-- 조인하는 테이블에서 조인 조건을 만족하지 않는 행도 출력
+-- 동등 조건을 만족하지 못하고 누락된 행을 출력할 때 사용
+
+SELECT *
+FROM JOBS J, JOB_HISTORY H
+WHERE J.job_id = H.job_ID;
+
+SELECT *
+FROM JOBS J, JOB_HISTORY H
+WHERE J.job_id = H.job_ID(+);
+-- 조인 조건을 만족하지 않는 H.job_ID도 출력
+
+SELECT * FROM COUNTRIES;
+SELECT * FROM LOCATIONS;
+
+SELECT *
+FROM COUNTRIES C, LOCATIONS L
+WHERE C.COUNTRY_ID=L.COUNTRY_ID(+);
+
+--1. COUNTRIES 테이블과 LOCATIONS 테이블을 COUTRY_ID 를 기준로 조인하여
+-- COUNTRY_NAME, STATE_PROVINCE, STREET_ADDRESS를 조회
+SELECT * FROM COUNTRIES;
+SELECT * FROM LOCATIONS;
+
+SELECT C.COUNTRY_NAME, L.STATE_PROVINCE, L.STREET_ADDRESS
+FROM COUNTRIES C, LOCATIONS L
+WHERE C.COUNTRY_ID=L.COUNTRY_ID;
+
+---------서브 쿼리-----------
+
+-- SALARY가 9000보다 크고 입사일이 06/01/03 보다 느린
+SELECT *
+FROM EMPLOYEES
+WHERE SALARY>(
+
+    SELECT SALARY
+    FROM EMPLOYEES
+    WHERE HIRE_DATE='06/01/03'
+);
+
+-- Steven 의 입사일보다 입사일이 빠른 데이터 추출
+SELECT *
+FROM EMPLOYEES
+WHERE HIRE_DATE<(
+    SELECT hire_date
+    FROM EMPLOYEES
+    WHERE first_name='Allan'
+);
+
+-- 부서별 salary 급여가 가장 많은 데이터만 추출
+SELECT *
+FROM EMPLOYEES
+where salary IN(
+    SELECT max(salary) 
+    FROM EMPLOYEES
+    GROUP BY DEPARTMENT_ID
+);
