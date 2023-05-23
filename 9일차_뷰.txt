@@ -1,0 +1,24 @@
+뷰(VIEW)
+
+-- GRANT (권한주기)
+GRANT CREATE VIEW TO 권한 줄 사람;
+
+-- 뷰 생성
+CREATE VIEW 뷰 이름
+AS (SELECT 가져올 내용의 열 이름);
+
+-- 뷰 삭제
+DROP VIEW 뷰 이름;
+
+
+--------------------------------------------------------------------
+시퀀스(SEQUENCE) : 규칙에 따라 순번을 생성
+
+-- 시퀀스 생성
+CREATE SEQUENCE TEST_SQL
+    INCREMENT BY 1  -- 번호의 증가 값
+    START WITH 1  -- 번호의 시작 값
+    MINVALUE 1 -- 번호의 최소 값
+    MAXVALUE 999 -- 번호의 최대 값
+    CYCLE -- 최대값에 도달했을 경우 다시 1부터 시작, NOCYCLE 이면 중단
+    CACHE n -- 생성할 번호를 메모리에 미리 할당(기본값 20)

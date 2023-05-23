@@ -55,3 +55,7 @@ WHRER 조건;
 DELETE -- 데이터 삭제
 DELETE FROM 테이블 명
 WHERE 변경필드=값;
+
+----------------------------------------------
+ROLLBACK;  COMMIT 하기 전 삭제된 데이터 복구
+COMMIT;   변경된 데이터 저장

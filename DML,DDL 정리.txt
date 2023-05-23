@@ -1,0 +1,57 @@
+-------------------------DML 정리------------------------------
+☆SELECT -- 데이터 조회
+SELECT 필드명 (*-전체)
+FROM 테이블명
+WHRER 조건;
+
+☆INSERT -- 테이블에 값(행) 추가
+INSERT INTO 테이블명
+VALUES( );
+
+☆UPDATE -- 데이터 수정
+UPDATE 테이블명
+SET 변경필드=값
+WHRER 조건;
+
+☆DELETE -- 데이터 삭제
+DELETE FROM 테이블 명
+WHERE 변경필드=값;
+
+----------------------------------------------
+ROLLBACK;  COMMIT 하기 전 삭제된 데이터 복구
+COMMIT;   변경된 데이터 저장
+
+-------------------------DDL 정리------------------------------ DB에 바로 반영됨
+☆CREATE -- 테이블 생성
+CREATE TABLE 테이블명(테이블 구조)
+
+☆ALTER -- 테이블 변경 (ADD, RENAME, MODIFY, DROP)
+  -- 테이블 열 추가 (ADD)
+  ALTER TABLE 테이블명
+  ADD 열이름 VARCHAR2(20);
+
+  -- 테이블 열 이름 변경 (RENAME)
+  ALTER TABLE 테이블명
+  RENAME COLUMN 테이블명 TO 새테이블명;
+
+  -- 테이블 열 길이 변경(MODIFY)
+  ALTER TABLE 테이블명
+  MODIFY 열 이름 VARCHAR2(20);
+
+  -- 테이블 열 삭제 (DROP)
+  ALTER TABLE 테이블명
+  DROP COLUMN 열 이름;
+
+
+☆RENAME -- 테이블 명 변경
+RENAME 테이블명 TO 변경할 테이블명;
+
+☆TRUNCATE -- 테이블의 모든 데이터 삭제, 복구불가능
+TRUNCATE TABLR 테이블명;
+
+☆DROP 테이블 삭제
+DROP TABLE 테이블명;
+
+------------------------------------------------
+--테이블 열 구조 조회
+DESC 테이블명;
